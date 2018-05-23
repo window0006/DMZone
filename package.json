@@ -1,0 +1,23 @@
+{
+  "name": "dmzone",
+  "version": "1.0.0",
+  "description": "My personal site.",
+  "main": "apiServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/window0006/DMZone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/window0006/DMZone/issues"
+  },
+  "homepage": "https://github.com/window0006/DMZone#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.1.0-beta4"
+  }
+}
