@@ -1,12 +1,29 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import Home from 'views/Home';
+import List from 'views/List';
+import Detail from 'views/Detail';
+
+import Header from 'modules/Header';
+import Footer from 'modules/Footer';
 
 class MainLayout extends React.Component {
+	renderMainByRoute() {
+		return [
+			<Route exact key="/" path="/" component={Home} />,
+			<Route key="list" path="/list" component={List} />,
+			<Route key="detail" path="/detail" component={Detail} />
+		];
+	}
 	render() {
 		return (
-			<div>hello world!
-			{
-				this.props.children
-			}</div>
+			<div>
+				<Header />
+				{
+					this.renderMainByRoute()
+				}
+				<Footer />
+			</div>
 		);
 	}
 }

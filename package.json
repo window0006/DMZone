@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/window0006/DMZone#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "mongodb": "^3.1.0-beta4"
+    "mongodb": "^3.1.0-beta4",
+    "supervisor": "^0.12.0"
   }
 }

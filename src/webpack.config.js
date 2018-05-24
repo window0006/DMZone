@@ -63,7 +63,8 @@ const config = {
         // modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
         extensions: ['.js', '.jsx'],
         alias: {
-            views: path.resolve(__dirname, './views')
+            views: path.resolve(__dirname, './views'),
+            modules: path.resolve(__dirname, './modules')
         }
     },
     module: {
