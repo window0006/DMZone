@@ -6,6 +6,9 @@ import Detail from 'views/Detail';
 
 import Header from 'modules/Header';
 import Footer from 'modules/Footer';
+import Editor from 'modules/Editor';
+import MediaEditor from 'modules/Editor/MediaEditor';
+import ColorEditor from 'modules/Editor/ColorEditor';
 
 class MainLayout extends React.Component {
 	renderMainByRoute() {
@@ -22,6 +25,9 @@ class MainLayout extends React.Component {
 				{
 					this.renderMainByRoute()
 				}
+				<Editor />
+				<MediaEditor />
+				<ColorEditor />
 				<Footer />
 			</div>
 		);
