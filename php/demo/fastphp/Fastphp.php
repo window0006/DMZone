@@ -2,9 +2,9 @@
 
 namespace fastphp;
 
-define('CORE_PATH') or define('CORE_PATH', __DIR__);
+defined('CORE_PATH') or define('CORE_PATH', __DIR__);
 // same as:
-// if (!define('CORE_PATH')) {
+// if (!defined('CORE_PATH')) {
 // 	define('CORE_PATH', __DIR__);
 // }
 
@@ -27,7 +27,7 @@ class Fastphp {
 		// 		echo 'class file' . $classpath . 'not found!';
 		// 	}
 		// }
-		sql_autoload_register(array($this, 'loadClass'));
+		spl_autoload_register(array($this, 'loadClass'));
 
 		$this->setReporting();
 		$this->removeMagicQuotes();
@@ -41,7 +41,7 @@ class Fastphp {
 		if (isset($classMap[$classname])) {
 			$file = $classMap[$classname];
 		} elseif (strpos($classname, '\\')){
-			$file = APP_PATH . str_replace('\\', '/', $classname);
+			$file = APP_PATH . str_replace('\\', '/', $classname) . '.php';
 			if (!is_file($file)) {
 				return;
 			}
@@ -62,31 +62,46 @@ class Fastphp {
 		];
 	}
 
-	// yoursite.com/item/detail/1/hello
-	// todo :: 改成 yoursite.com/controll/action/?param1=&param2=
+	// yoursite.com/controll/action/?param1=&param2=
 	public function route() {
 		$controllerName = $this->config['defaultController'];
 		$actionName = $this->config['defaultAction'];
-		$param = array();
 
 		$url = $_SERVER['REQUEST_URI'];
-		// 清除?之后的内容
-		$tmepPos = strpos($url, '?');
-		$url = $tmepPos === false ? $url : substr($url, 0, $tmepPos);
+		
+		$param = array();
+		$tempPos = strpos($url, '?');
+		$tempParamStr = $tempPos === false ? '' : substr($url, $tempPos + 1);
+
+		if ($tempParamStr) {
+			$tempParamArr = explode('&', $tempParamStr);
+
+			foreach ($tempParamArr as $value) {
+				$tempArr = explode('=', $value);
+				$resultValue = '';
+				try {
+					$resultValue = urldecode($tempArr[1]);
+				} catch(Exception $e) {}
+				$param[$tempArr[0]] = $resultValue;
+			}
+		}
+		// var_dump($param);
+
+		$url = $tempPos === false ? $url : substr($url, 0, $tempPos);
+
+
 		// 删除前后的“/”
 		$url = trim($url, '/');
 
 		if ($url) {
-			$urlArr = explode($url, '/');
+			$urlArr = explode('/', $url);
 			$urlArr = array_filter($urlArr); // 删除空数组元素
 
 			$controllerName = ucfirst($urlArr[0]);
 			array_shift($urlArr);
 
-			$actionName = $urlArr ? $urlArray[0] : $actionName;
+			$actionName = $urlArr ? $urlArr[0] : $actionName;
 			array_shift($urlArr);
-
-			$param = $urlArr ? $urlArr : array();
 		}
 
 		$controller = 'app\\controller\\' . $controllerName . 'Controller';
@@ -153,6 +168,7 @@ class Fastphp {
 	public function setDbConfig() {
 		if ($this->config['db']) {
 			// Model::$db_config = $this->config['db'];
+			// exit($this->config['db']['host']);
 			define('DB_HOST', $this->config['db']['host']);
 			define('DB_NAME', $this->config['db']['dbname']);
 			define('DB_USER', $this->config['db']['username']);

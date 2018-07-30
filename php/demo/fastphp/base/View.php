@@ -22,8 +22,9 @@ class View {
 		if ($this->_controller != 'index') {
 			$htmlPath = $this->_controller . '/' . $htmlPath;
 		}
-		$html = APP_PATH . 'app/views/' . $htmlPath;
+		$html = APP_PATH . 'app/view/' . $htmlPath;
 
 		include $html;
 	}
+
 }
